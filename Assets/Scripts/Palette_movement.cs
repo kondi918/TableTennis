@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Palette_movement : MonoBehaviour
@@ -48,7 +49,7 @@ public class Palette_movement : MonoBehaviour
             palette_2.transform.position += new Vector3(0.2f, 0, 0);
         }
     }
-    private void movement()
+    private void player_1_movement()
     {
         if (Input.GetKey(KeyCode.LeftArrow) && palette_1.transform.position.x > -7.5f)
         {
@@ -58,93 +59,113 @@ public class Palette_movement : MonoBehaviour
         {
             palette_1.transform.position += new Vector3(0.2f, 0, 0);
         }
+    }
+    private void player_2_movement()
+    {
+        if (Input.GetKey(KeyCode.D) && palette_2.transform.position.x < -0.3f)
+        {
+            palette_2.transform.position += new Vector3(0.2f, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.A) && palette_2.transform.position.x > -7.5f)
+        {
+            palette_2.transform.position -= new Vector3(0.2f, 0, 0);
+        }
+    }
+    private void computer_easy_movement()
+    {
+        if (get_x_distance() >= 0.5f)
+        {
+            palette_2.transform.position -= new Vector3(0.1f, 0, 0);
+        }
+        else if (get_x_distance() <= -0.5f)
+        {
+            palette_2.transform.position += new Vector3(0.1f, 0, 0);
+        }
+    }
+    private void computer_medium_movement()
+    {
+        if (medium_lvl_random_parametre < 2)
+        {
+            int random_site = Random.Range(0, 100);
+            if (get_peltte_position().x > -7.5 && get_peltte_position().x < -0.5)
+            {
+                if (random_site <= 10)
+                {
+                    palette_2.transform.position -= new Vector3(0.1f, 0, 0);
+                }
+                else
+                {
+                    palette_2.transform.position += new Vector3(0.1f, 0, 0);
+                }
+            }
+        }
+        else
+        {
+            if (get_ball_distance() > 5f && balL_velocity.y < 0)
+            {
+                move_to_center();
+            }
+            else
+            {
+                if (get_x_distance() >= 0.5f)
+                {
+                    float movement = Random.Range(1, 4) * 0.1f;
+                    palette_2.transform.position -= new Vector3(movement, 0, 0);
+                }
+                else if (get_x_distance() <= -0.5f)
+                {
+                    float movement = Random.Range(1, 4) * 0.1f;
+                    palette_2.transform.position += new Vector3(movement, 0, 0);
+                }
+            }
+        }
+    }
+    private void computer_hard_movement()
+    {
+        if (get_ball_distance() > 5f && balL_velocity.y < 0)
+        {
+            move_to_center();
+        }
+        else
+        {
+            if (get_x_distance() >= 0.5f)
+            {
+                palette_2.transform.position -= new Vector3(0.4f, 0, 0);
+                if (get_ball_distance() < 4f)
+                {
+                    palette_2.transform.position -= new Vector3(0.1f, 0, 0);
+                }
+            }
+            else if (get_x_distance() <= -0.8f)
+            {
+                palette_2.transform.position += new Vector3(0.25f, 0, 0);
+                if (get_ball_distance() < 4f)
+                {
+                    palette_2.transform.position += new Vector3(0.1f, 0, 0);
+                }
+            }
+        }
+    }
+    private void movement()
+    {
+        player_1_movement();
         if (Game_Settings.who_is_enemy != "computer")
         {
-            if (Input.GetKey(KeyCode.D) && palette_2.transform.position.x < -0.3f)
-            {
-                palette_2.transform.position += new Vector3(0.2f, 0, 0);
-            }
-            if (Input.GetKey(KeyCode.A) && palette_2.transform.position.x > -7.5f)
-            {
-                palette_2.transform.position -= new Vector3(0.2f, 0, 0);
-            }
+            player_2_movement();
         }
         else
         {
             if (Game_Settings.difficulty == "easy")
             {
-                if (get_x_distance() >= 0.5f)
-                {
-                    palette_2.transform.position -= new Vector3(0.1f, 0, 0);
-                }
-                else if (get_x_distance() <= -0.5f)
-                {
-                    palette_2.transform.position += new Vector3(0.1f, 0, 0);
-                }
+                computer_easy_movement();
             }
             else if (Game_Settings.difficulty == "medium")
             {
-                if (medium_lvl_random_parametre < 2)
-                {
-                    int random_site = Random.Range(0,100);
-                    if (get_peltte_position().x > -7.5 && get_peltte_position().x < -0.5)
-                    {
-                        if (random_site <= 10)
-                        {
-                            palette_2.transform.position -= new Vector3(0.1f, 0, 0);
-                        }
-                        else
-                        {
-                            palette_2.transform.position += new Vector3(0.1f, 0, 0);
-                        }
-                    }
-                }
-                else
-                {
-                    if (get_ball_distance() > 5f && balL_velocity.y < 0)
-                    {
-                        move_to_center();
-                    }
-                    else
-                    {
-                        if (get_x_distance() >= 0.5f)
-                        {
-                            float movement = Random.Range(1, 4) * 0.1f;
-                            palette_2.transform.position -= new Vector3(movement, 0, 0);
-                        }
-                        else if (get_x_distance() <= -0.5f)
-                        {
-                            float movement = Random.Range(1, 4) * 0.1f;
-                            palette_2.transform.position += new Vector3(movement, 0, 0);
-                        }
-                    }
-                }
+                computer_medium_movement();
             }
             else
             {
-                if (get_ball_distance() > 5f && balL_velocity.y < 0)
-                {
-                    move_to_center();
-                }
-                else
-                { 
-                    if (get_x_distance() >= 0.5f)
-                    {
-                        palette_2.transform.position -= new Vector3(0.4f, 0, 0);
-                        if (get_ball_distance() < 4f)
-                        {
-                            palette_2.transform.position -= new Vector3(0.1f, 0, 0);
-                        }
-                    }
-                    else if (get_x_distance() <= -0.8f)
-                    {
-                        palette_2.transform.position += new Vector3(0.25f, 0, 0);
-                        if (get_ball_distance() < 4f)
-                        {
-                            palette_2.transform.position += new Vector3(0.1f, 0, 0);
-                        }
-                    }
-                }
+                computer_hard_movement();
             }
             
         }
