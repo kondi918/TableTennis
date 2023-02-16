@@ -16,4 +16,8 @@ public class Options_Buttons : MonoBehaviour
     {
         Game_Settings.difficulty = "hard";
     }
+    public void set_ai_mode()
+    {
+        Game_Settings.difficulty = "AI";
+    }
 }

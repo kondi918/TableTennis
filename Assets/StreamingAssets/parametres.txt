@@ -1,3 +1,9 @@
 W1 | W2 | Liczba dodawana
 Pierwsze dane
-2 | 2 | 5 |
+2 | 10 | 5 |
+Data ustawienia danych: 09.02.2023 18:39:05
+-4,16 | 4,8 | 6,4 | 
+Data ustawienia danych: 09.02.2023 18:39:09
+-4,16 | 4,8 | 6,4 | 
+Data ustawienia danych: 16.02.2023 21:50:43
+-7,48 | 7,98 | 0 | 
